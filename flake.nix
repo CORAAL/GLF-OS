@@ -1,22 +1,39 @@
 {
-  inputs = { nixpkgs.url = "nixpkgs/nixos-24.11"; };
+  description = "GLF-OS";
 
-  outputs = { nixpkgs, ... } @ inputs:
-    let system = "x86_64-linux";
-    in
-    rec
-    {
-      iso = nixosConfigurations."glf-installer".config.system.build.isoImage;
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+  };
+
+  outputs = { self, nixpkgs, ... }:
+    let
+      system = "x86_64-linux";
+
+      nixpkgsConfig = {
+        allowUnfree = true;
+      };
+
+      pkgs = import nixpkgs {
+        inherit system;
+        config = nixpkgsConfig;
+      };
+
+      nixosModules = {
+        default = import ./modules/default;
+      };
 
       nixosConfigurations = {
         "glf-installer" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; }; inherit system;
+          inherit system;
 
           modules = [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix"
             "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
-            ./nix-cfg/configuration.nix
+            nixosModules.default
+            ./iso-cfg/configuration.nix
+
             {
+              nixpkgs.config = nixpkgsConfig;
               nixpkgs.overlays = [
                 (self: super: {
                   calamares-nixos-extensions = super.calamares-nixos-extensions.overrideAttrs (oldAttrs: {
@@ -24,7 +41,6 @@
                       cp ${./patches/calamares-nixos-extensions/modules/nixos/main.py}                   $out/lib/calamares/modules/nixos/main.py
                       cp -r ${./patches/calamares-nixos-extensions/config/settings.conf}                 $out/share/calamares/settings.conf
                       cp -r ${./patches/calamares-nixos-extensions/config/modules/packagechooser.conf}   $out/share/calamares/modules/packagechooser.conf
-                      
                       cp -r ${./patches/calamares-nixos-extensions/branding/nixos/show.qml}        $out/share/calamares/branding/nixos/show.qml
                       cp -r ${./patches/calamares-nixos-extensions/branding/nixos/white.png}       $out/share/calamares/branding/nixos/white.png
                       cp -r ${./patches/calamares-nixos-extensions/branding/nixos/base.png}        $out/share/calamares/branding/nixos/base.png
@@ -37,23 +53,28 @@
                 })
               ];
             }
-            ({ config, ... }: {
-              isoImage = {
-                # change default partition name (cannot exceed 32 bytes)
-                # volumeID = nixpkgs.lib.mkDefault "glfos${nixpkgs.lib.optionalString (config.isoImage.edition != "") "-${config.isoImage.edition}"}-${config.system.nixos.release}";
-                volumeID = nixpkgs.lib.mkDefault "glfos-${config.system.nixos.version}";
 
+            ({ config, ... }:
+             {
+               isoImage = {
+                volumeID = nixpkgs.lib.mkDefault "glfos-${config.system.nixos.version}";
                 includeSystemBuildDependencies = false;
                 storeContents = [ config.system.build.toplevel ];
                 squashfsCompression = "zstd -Xcompression-level 22";
-                contents = [{
-                  source = ./nix-cfg;
-                  target = "/nix-cfg";
-                }];
+                contents = [
+                  {
+                    source = ./iso-cfg;
+                    target = "/iso-cfg";
+                  }
+                ];
               };
             })
           ];
         };
       };
+
+    in {
+      iso = nixosConfigurations."glf-installer".config.system.build.isoImage;
+      inherit nixosConfigurations nixosModules;
     };
 }
