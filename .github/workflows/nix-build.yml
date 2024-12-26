@@ -1,4 +1,4 @@
-name: Nix Build
+name: Nix Build Configurations
 
 on:
   push:
