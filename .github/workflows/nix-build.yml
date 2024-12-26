@@ -20,7 +20,8 @@ jobs:
         uses: cachix/install-nix-action@v17
 
       - name: Build with Nix
-	run: nix run github:Mic92/nix-fast-build -- --flake .#nixosConfigurations.glf-installer.config.system.build.toplevel
+        # run: nix --extra-experimental-features "nix-command flakes" build -L .#nixosConfigurations.glf-installer.config.system.build.toplevel
+	run: nix --extra-experimental-features "nix-command flakes" run github:Mic92/nix-fast-build -- --flake .#nixosConfigurations.glf-installer.config.system.build.toplevel
 
 
 
