@@ -1,0 +1,23 @@
+name: Build NixOS ISO
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v17
+
+      - name: Build NixOS ISO
+        run: nix build .#nixosConfigurations.myIso.config.system.build.isoImage
+
+- name: Upload ISO Artifact
+  uses: actions/upload-artifact@v4
+  with:
+    name: nixos-iso
+    path: ./result/iso/*.iso
