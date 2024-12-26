@@ -16,8 +16,8 @@ jobs:
       - name: Build NixOS ISO
         run: nix --extra-experimental-features "nix-command flakes" build -L .#iso
 
-- name: Upload ISO Artifact
-  uses: actions/upload-artifact@v4
-  with:
-    name: nixos-iso
-    path: ./result/iso/*.iso
+      - name: Upload ISO Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nixos-iso
+          path: ./result/*.iso
