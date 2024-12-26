@@ -5,8 +5,8 @@ on:
     branches:
       - main
       - dev
-    pull_request:
-      branches:
+  pull_request:
+    branches:
       - main
       - develop
 
@@ -20,7 +20,8 @@ jobs:
         uses: cachix/install-nix-action@v17
 
       - name: Build with Nix
-	run: nix run github:Mic92/nix-fast-build -- --skip-cached --no-nom --flake ".#nixosConfigurations.glf-installer.config.system.build.toplevel"
+        run: |
+          nix run github:Mic92/nix-fast-build -- --skip-cached --no-nom --flake ".#nixosConfigurations.glf-installer.config.system.build.toplevel"
 
 
 
