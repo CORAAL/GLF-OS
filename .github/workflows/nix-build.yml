@@ -2,6 +2,13 @@ name: Nix Build
 
 on:
   push:
+    branches:
+      - main
+      - dev
+    pull_request:
+      branches:
+      - main
+      - develop
 
 jobs:
   build:
@@ -12,6 +19,18 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v17
 
-      - name: Build with Nix
-        run: nix --extra-experimental-features "nix-command flakes" build -L .#nixosConfigurations.glf-installer.config.system.build.toplevel
+      # - name: Build with Nix
+        # run: nix --extra-experimental-features "nix-command flakes" build -L .#nixosConfigurations.glf-installer.config.system.build.toplevel
+
+      - name: Install nix-fast-build
+        run: |
+          git clone https://github.com/Mic92/nix-fast-build.git
+          cd nix-fast-build
+          make install
+
+      - name: Build with nix-fast-build
+        run: |
+          cd path/to/your/project
+          nix-fast-build --flake .#nixosConfigurations.glf-installer.config.system.build.toplevel
+
 
