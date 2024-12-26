@@ -3,9 +3,7 @@ name: Nix Build
 on:
   push:
     paths:
-      - 'nix-cfg/**'
-      - 'flake.nix'
-      - `flake.lock`
+      - './**'
 
 jobs:
   build:
