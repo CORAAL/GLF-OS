@@ -2,8 +2,6 @@ name: Nix Build
 
 on:
   push:
-    paths:
-      - './**'
 
 jobs:
   build:
