@@ -16,8 +16,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Nix
-        uses: cachix/install-nix-action@v17
-
       - name: Build with Nix
         run: nix --extra-experimental-features "nix-command flakes" build -L .#nixosConfigurations.glf-installer.config.system.build.toplevel
