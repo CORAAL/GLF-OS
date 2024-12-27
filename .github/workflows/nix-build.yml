@@ -24,17 +24,6 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v17
 
-      # Restaurer le cache Nix (facultatif pour accélérer les builds)
-      - name: Restore Nix Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            /nix/store
-            /nix/var/nix/db
-          key: ${{ runner.os }}-nix-cache-${{ hashFiles('**/*.nix', '**/flake.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-nix-cache-
-
       # Construire la configuration NixOS
       - name: Build with Nix
         run: nix --extra-experimental-features "nix-command flakes" build -L .#nixosConfigurations.glf-installer.config.system.build.toplevel
