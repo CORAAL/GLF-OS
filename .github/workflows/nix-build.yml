@@ -26,4 +26,4 @@ jobs:
 
       # Construire la configuration NixOS
       - name: Build with Nix
-        run: nix --extra-experimental-features "nix-command flakes" build -L .#nixosConfigurations.glf-installer.config.system.build.toplevel
+        run: nix run github:Mic92/nix-fast-build -- -f .#nixosConfigurations.glf-installer.config.system.build.toplevel --no-nom 
