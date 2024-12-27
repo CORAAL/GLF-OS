@@ -21,12 +21,12 @@ jobs:
       - name: Debug Build Output
         run: |
           echo "Contents of result:"
-          ls -l ./result-
+          ls -l ./result*
 
       - name: Resolve ISO path
         id: resolve_path
         run: |
-          ISO_PATH=$(readlink -f ./result-)
+          ISO_PATH=$(readlink -f ./result*)
           echo "ISO file resolved to: $ISO_PATH"
           echo "iso_path=$ISO_PATH" >> $GITHUB_ENV
 
