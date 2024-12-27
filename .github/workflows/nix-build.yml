@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - dev
+      - workflow-nix
   pull_request:
     branches:
       - main
       - dev
+      - workflow-nix
 
 jobs:
   build:
