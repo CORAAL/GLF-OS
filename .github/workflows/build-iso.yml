@@ -16,7 +16,7 @@ jobs:
         uses: cachix/install-nix-action@v17
 
       - name: Build NixOS ISO
-        run: nix --extra-experimental-features "nix-command flakes" build -L .#iso
+        run: nix run github:Mic92/nix-fast-build -- --no-nom  --skip-cached --systems 'x86_64-linux' -f .#iso 
 
       - name: Debug Build Output
         run: |
