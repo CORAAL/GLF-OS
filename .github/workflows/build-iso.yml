@@ -15,8 +15,8 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v17
 
-      - name: Build NixOS ISO
-        run: nix run github:Mic92/nix-fast-build -- --no-nom  --skip-cached --systems 'x86_64-linux' -f .#iso 
+      - name: Build GLF-OS ISO
+        run: nix run github:Mic92/nix-fast-build -- --no-nom  --skip-cached --systems 'x86_64-linux' -f .#iso         
 
       - name: Debug Build Output
         run: |
