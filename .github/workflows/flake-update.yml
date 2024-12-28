@@ -5,8 +5,6 @@ on:
     branches:
       - dev
       - workflow-nix
-  # schedule:
-  #   - cron: '0 0 * * 0'  # Exécution tous les dimanche à minuit
   workflow_dispatch:
 
 jobs:
@@ -32,15 +30,16 @@ jobs:
           echo "Vérification de l'état de flake.lock"
           git status --short flake.lock
           
-          # Ajoute un test de différence plus détaillé
+          # Vérifie si flake.lock est modifié
           if git diff --exit-code flake.lock; then
             echo "flake.lock n'a pas été modifié"
           else
             echo "flake.lock a été modifié"
-            # Démarre la construction
+            # Lance la tâche nix run si modifié
+            echo "Démarrage de la construction Nix"
             nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
           fi
-
+          
       # Créer une pull request si la construction réussit
       - name: Create Pull Request
         if: success() && env.flake_lock_updated == 'true'
@@ -50,6 +49,6 @@ jobs:
           commit-message: 'Update GLF-OS flake'
           title: 'Update GLF-OS flake'
           body: |
-            This PR update flake.lock and build.
+            This PR updates flake.lock and build.
           base: dev
           branch: update/flake
