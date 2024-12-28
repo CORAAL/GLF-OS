@@ -21,23 +21,25 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v17
 
+      # Mettre à jour le flocon Nix
+      - name: Update Nix Flake
+        run: nix flake update
+
       # Ajouter flake.lock à l'index et valider si modifié
       - name: Update Nix Flake and Build if modified
         run: |
-          # Met à jour le flocon Nix
-          nix flake update
-
-          # Vérifie si flake.lock a été modifié
-          if [[ $(git status --short flake.lock) =~ ^M ]]; then
-            echo "flake.lock a été modifié"
-            # git add flake.lock
-            # git commit -m "Update flake.lock"
-            echo "Démarrage de la construction..."
-            nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
-          else
+          # Vérifie les modifications de flake.lock
+          echo "Vérification de l'état de flake.lock"
+          git status --short flake.lock
+          
+          # Ajoute un test de différence plus détaillé
+          if git diff --exit-code flake.lock; then
             echo "flake.lock n'a pas été modifié"
+          else
+            echo "flake.lock a été modifié"
+            # Démarre la construction
+            nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
           fi
-
 
       # Créer une pull request si la construction réussit
       - name: Create Pull Request
