@@ -12,6 +12,8 @@ jobs:
     runs-on: [self-hosted, linux]
     env:
       USER: runner
+    outputs:
+      flake_lock_modified: ${{ steps.check_flake.outputs.flake_lock_modified }}
     steps:
       - uses: actions/checkout@v3
 
@@ -30,17 +32,17 @@ jobs:
           # Vérifie si flake.lock a été modifié
           if git diff --exit-code flake.lock; then
             echo "flake.lock n'a pas été modifié"
-            echo "flake_lock_modified=false" >> $GITHUB_ENV
+            echo "::set-output name=flake_lock_modified::false"
           else
             echo "flake.lock a été modifié"
-            echo "flake_lock_modified=true" >> $GITHUB_ENV
+            echo "::set-output name=flake_lock_modified::true"
           fi
 
   # Nouvelle tâche 'nix build' qui se déclenche si flake.lock a changé
   nix_build:
     runs-on: [self-hosted, linux]
     needs: build
-    if: ${{ env.flake_lock_modified == 'true' }}
+    if: ${{ needs.build.outputs.flake_lock_modified == 'true' }}
     steps:
       - name: Build with Nix
         run: |
