@@ -6,7 +6,7 @@ on:
       - dev
       - workflow-nix
   # schedule:
-  #   - cron: '0 0 */4 * *'  # Exécution tous les 4 jours à minuit
+  #   - cron: '0 0 * * 0'  # Exécution tous les dimanche à minuit
   workflow_dispatch:
 
 jobs:
@@ -30,7 +30,10 @@ jobs:
         id: check_flake_lock
         run: |
           git diff --exit-code flake.lock
-          echo "flake_lock_updated=$(git diff --exit-code flake.lock || echo 'true')" >> $GITHUB_ENV
+          if [ $? -eq 1 ]; then
+            echo "flake_lock_updated=true" >> $GITHUB_ENV
+          else
+            echo "flake_lock_updated=false" >> $GITHUB_ENV
 
 
       # Construire la configuration NixOS si flake.lock a été modifié
@@ -41,12 +44,12 @@ jobs:
 
       # Créer une pull request si la construction réussit
       - name: Create Pull Request
-        if: success() && steps.check_flake_lock.outputs.diff == 'true'
+        if: success() && env.flake_lock_updated == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
-          commit-message: 'Update NixOS ISO'
-          title: 'Update NixOS ISO'
+          commit-message: 'Update GLF-OS flake'
+          title: 'Update GLF-OS flake'
           body: |
             This PR update flake.lock and build.
           base: dev
