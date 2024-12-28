@@ -21,10 +21,6 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v17
 
-      # Mettre à jour le flocon Nix
-      - name: Update Nix Flake
-        run: nix flake update
-
       # Ajouter flake.lock à l'index et valider si modifié
       - name: Update Nix Flake and Build if modified
         run: |
