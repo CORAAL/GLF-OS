@@ -41,9 +41,16 @@ jobs:
   # Nouvelle tâche 'nix build' qui se déclenche si flake.lock a changé
   nix_build:
     runs-on: [self-hosted, linux]
+    env:
+      USER: runner
     needs: build
     if: ${{ needs.build.outputs.flake_lock_modified == 'true' }}
     steps:
+
+      # Installer Nix
+      - name: Install Nix
+        uses: cachix/install-nix-action@v17
+
       - name: Build with Nix
         run: |
           echo "Démarrage de la construction Nix"
