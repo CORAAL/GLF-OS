@@ -25,14 +25,16 @@ jobs:
       - name: Update Nix Flake
         run: nix flake update
 
-      # Vérifier si flake.lock a été modifié
-      - name: Check if flake.lock was updated
-        id: check_flake_lock
+      # Ajouter flake.lock à l'index et valider si modifié
+      - name: Commit updated flake.lock if modified
+        id: commit_flake_lock
         run: |
-          # Ajouter flake.lock à l'index pour s'assurer qu'il est pris en compte
-          git add flake.lock 
-          git diff --quiet flake.lock || echo "flake_lock_updated=true" >> $GITHUB_ENV
-          if [ $? -eq 0 ]; then
+          git add flake.lock
+          git status
+          if ! git diff --quiet flake.lock; then
+            git commit -m "Update flake.lock"
+            echo "flake_lock_updated=true" >> $GITHUB_ENV
+          else
             echo "flake_lock_updated=false" >> $GITHUB_ENV
           fi
 
