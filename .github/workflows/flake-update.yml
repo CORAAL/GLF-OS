@@ -35,7 +35,7 @@ jobs:
       - name: Build with Nix
         if: steps.check_flake_lock.outputs.diff == 'true'
         run: nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
-        continue-on-error: false
+        # continue-on-error: false
 
       # Créer une pull request si la construction réussit
       - name: Create Pull Request
