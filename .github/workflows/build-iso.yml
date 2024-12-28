@@ -1,7 +1,6 @@
 name: Build NixOS ISO
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:

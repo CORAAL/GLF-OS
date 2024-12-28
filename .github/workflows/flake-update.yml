@@ -1,0 +1,51 @@
+name: Nix Build Configurations
+
+on:
+  push:
+    branches:
+      - dev
+  schedule:
+    - cron: '0 0 */4 * *'  # Exécution tous les 4 jours à minuit
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [self-hosted, linux]
+    env:
+      USER: runner
+    steps:
+      - uses: actions/checkout@v3
+
+      # Installer Nix
+      - name: Install Nix
+        uses: cachix/install-nix-action@v17
+
+      # Mettre à jour le flocon Nix
+      - name: Update Nix Flake
+        run: nix flake update
+
+      # Vérifier si flake.lock a été modifié
+      - name: Check if flake.lock was updated
+        id: check_flake_lock
+        run: |
+          git diff --exit-code flake.lock || echo "flake.lock has been updated"
+
+      # Construire la configuration NixOS si flake.lock a été modifié
+      - name: Build with Nix
+        if: steps.check_flake_lock.outputs.diff == 'true'
+        run: |
+          nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
+        continue-on-error: true
+
+      # Créer une pull request si la construction réussit
+      # - name: Create Pull Request
+      #   if: success() && steps.check_flake_lock.outputs.diff == 'true'
+      #   uses: peter-evans/create-pull-request@v7
+      #   with:
+      #     token: ${{ secrets.PAT }}
+      #     commit-message: 'Update NixOS ISO'
+      #     title: 'Update NixOS ISO'
+      #     body: |
+      #       This PR updates the NixOS ISO after flake.lock was updated.
+      #     base: dev
+      #     branch: update-nixos-iso
