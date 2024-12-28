@@ -32,18 +32,16 @@ jobs:
           nix flake update
 
           # Vérifie si flake.lock a été modifié
-          if git status --short flake.lock | grep -q '^M'; then
-            echo "flake.lock a été modifié, ajout au commit"
-            # Ajoute le fichier à l'index
-            git add flake.lock
-            # Commit les changements
-            git commit -m "Update flake.lock"
-            # Construire avec Nix
+          if [[ $(git status --short flake.lock) =~ ^M ]]; then
+            echo "flake.lock a été modifié"
+            # git add flake.lock
+            # git commit -m "Update flake.lock"
             echo "Démarrage de la construction..."
             nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
           else
-            echo "flake.lock n'a pas été modifié, pas de construction"
+            echo "flake.lock n'a pas été modifié"
           fi
+
 
       # Créer une pull request si la construction réussit
       - name: Create Pull Request
