@@ -26,28 +26,24 @@ jobs:
         run: nix flake update
 
       # Ajouter flake.lock à l'index et valider si modifié
-      - name: Commit updated flake.lock if modified
-        id: commit_flake_lock
+      - name: Update Nix Flake and Build if modified
         run: |
+          # Met à jour le flocon Nix
+          nix flake update
+
           # Vérifie si flake.lock a été modifié
           if git status --short flake.lock | grep -q '^M'; then
-            echo "flake.lock a été modifié"
+            echo "flake.lock a été modifié, ajout au commit"
             # Ajoute le fichier à l'index
             git add flake.lock
             # Commit les changements
             git commit -m "Update flake.lock"
-            echo "flake_lock_updated=true" >> $GITHUB_ENV
+            # Construire avec Nix
+            echo "Démarrage de la construction..."
+            nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
           else
-            echo "flake.lock n'a pas été modifié"
-            echo "flake_lock_updated=false" >> $GITHUB_ENV
+            echo "flake.lock n'a pas été modifié, pas de construction"
           fi
-
-
-      # Construire la configuration NixOS si flake.lock a été modifié
-      - name: Build with Nix
-        if: env.flake_lock_updated == 'true'
-        run: nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
-        # continue-on-error: false
 
       # Créer une pull request si la construction réussit
       - name: Create Pull Request
