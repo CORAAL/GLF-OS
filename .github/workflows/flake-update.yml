@@ -35,7 +35,7 @@ jobs:
 
       # Construire la configuration NixOS si flake.lock a été modifié
       - name: Build with Nix
-        if: steps.check_flake_lock.outputs.diff == 'true'
+        if: env.flake_lock_updated == 'true'
         run: nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
         continue-on-error: false
 
