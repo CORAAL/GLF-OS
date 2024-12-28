@@ -36,17 +36,17 @@ jobs:
         if: steps.check_flake_lock.outputs.diff == 'true'
         run: |
           nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
-        continue-on-error: true
+        continue-on-error: false
 
       # Créer une pull request si la construction réussit
-      # - name: Create Pull Request
-      #   if: success() && steps.check_flake_lock.outputs.diff == 'true'
-      #   uses: peter-evans/create-pull-request@v7
-      #   with:
-      #     token: ${{ secrets.PAT }}
-      #     commit-message: 'Update NixOS ISO'
-      #     title: 'Update NixOS ISO'
-      #     body: |
-      #       This PR updates the NixOS ISO after flake.lock was updated.
-      #     base: dev
-      #     branch: update-nixos-iso
+      - name: Create Pull Request
+        if: success() && steps.check_flake_lock.outputs.diff == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          commit-message: 'Update NixOS ISO'
+          title: 'Update NixOS ISO'
+          body: |
+            This PR updates the NixOS ISO after flake.lock was updated.
+          base: dev
+          branch: update-nixos-iso
