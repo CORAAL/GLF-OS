@@ -11,6 +11,7 @@ on:
       - main
       - dev
       - workflow-nix
+  workflow_dispatch:
 
 jobs:
   build:
