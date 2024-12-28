@@ -29,12 +29,10 @@ jobs:
       - name: Check if flake.lock was updated
         id: check_flake_lock
         run: |
-          git diff --quiet flake.lock
-          if [ $? -eq 1 ]; then
-            echo "flake_lock_updated=true" >> $GITHUB_ENV
-          else
+          git diff --quiet flake.lock || echo "flake_lock_updated=true" >> $GITHUB_ENV
+          if [ $? -eq 0 ]; then
             echo "flake_lock_updated=false" >> $GITHUB_ENV
-
+          fi
 
       # Construire la configuration NixOS si flake.lock a été modifié
       - name: Build with Nix
