@@ -29,14 +29,19 @@ jobs:
       - name: Commit updated flake.lock if modified
         id: commit_flake_lock
         run: |
-          git add flake.lock
-          git status
-          if ! git diff --quiet flake.lock; then
+          # Vérifie si flake.lock a été modifié
+          if git status --short flake.lock | grep -q '^M'; then
+            echo "flake.lock a été modifié"
+            # Ajoute le fichier à l'index
+            git add flake.lock
+            # Commit les changements
             git commit -m "Update flake.lock"
             echo "flake_lock_updated=true" >> $GITHUB_ENV
           else
+            echo "flake.lock n'a pas été modifié"
             echo "flake_lock_updated=false" >> $GITHUB_ENV
           fi
+
 
       # Construire la configuration NixOS si flake.lock a été modifié
       - name: Build with Nix
