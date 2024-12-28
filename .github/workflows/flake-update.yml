@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - workflow-nix
   # schedule:
   #   - cron: '0 0 */4 * *'  # Exécution tous les 4 jours à minuit
   workflow_dispatch:
