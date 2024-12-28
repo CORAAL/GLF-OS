@@ -23,26 +23,32 @@ jobs:
       - name: Update Nix Flake
         run: nix flake update
 
-      # Ajouter flake.lock à l'index et valider si modifié
-      - name: Update Nix Flake and Build if modified
+      # Vérifier si flake.lock a été modifié
+      - name: Check if flake.lock is modified
+        id: check_flake
         run: |
-          # Vérifie les modifications de flake.lock
-          echo "Vérification de l'état de flake.lock"
-          git status --short flake.lock
-          
-          # Vérifie si flake.lock est modifié
+          # Vérifie si flake.lock a été modifié
           if git diff --exit-code flake.lock; then
             echo "flake.lock n'a pas été modifié"
+            echo "flake_lock_modified=false" >> $GITHUB_ENV
           else
             echo "flake.lock a été modifié"
-            # Lance la tâche nix run si modifié
-            echo "Démarrage de la construction Nix"
-            nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
+            echo "flake_lock_modified=true" >> $GITHUB_ENV
           fi
-          
+
+  # Nouvelle tâche 'nix build' qui se déclenche si flake.lock a changé
+  nix_build:
+    runs-on: [self-hosted, linux]
+    needs: build
+    if: ${{ env.flake_lock_modified == 'true' }}
+    steps:
+      - name: Build with Nix
+        run: |
+          echo "Démarrage de la construction Nix"
+          nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
+
       # Créer une pull request si la construction réussit
       - name: Create Pull Request
-        if: success() && env.flake_lock_updated == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
