@@ -29,7 +29,7 @@ jobs:
       - name: Check if flake.lock was updated
         id: check_flake_lock
         run: |
-          git diff --exit-code flake.lock
+          git diff --quiet flake.lock
           if [ $? -eq 1 ]; then
             echo "flake_lock_updated=true" >> $GITHUB_ENV
           else
