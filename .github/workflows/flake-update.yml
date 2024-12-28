@@ -1,4 +1,4 @@
-name: Nix Build Configurations
+name: Update flake and try build
 
 on:
   push:
