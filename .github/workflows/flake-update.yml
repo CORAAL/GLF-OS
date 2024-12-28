@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - dev
-  schedule:
-    - cron: '0 0 */4 * *'  # Exécution tous les 4 jours à minuit
+  # schedule:
+  #   - cron: '0 0 */4 * *'  # Exécution tous les 4 jours à minuit
   workflow_dispatch:
 
 jobs:
