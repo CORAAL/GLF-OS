@@ -29,13 +29,15 @@ jobs:
       - name: Check if flake.lock was updated
         id: check_flake_lock
         run: |
-          git diff --exit-code flake.lock || echo "flake.lock has been updated"
+          git diff --exit-code flake.lock
+          echo "flake_lock_updated=$(git diff --exit-code flake.lock || echo 'true')" >> $GITHUB_ENV
+
 
       # Construire la configuration NixOS si flake.lock a été modifié
       - name: Build with Nix
         if: steps.check_flake_lock.outputs.diff == 'true'
         run: nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
-        # continue-on-error: false
+        continue-on-error: false
 
       # Créer une pull request si la construction réussit
       - name: Create Pull Request
