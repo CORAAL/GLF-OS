@@ -34,8 +34,7 @@ jobs:
       # Construire la configuration NixOS si flake.lock a été modifié
       - name: Build with Nix
         if: steps.check_flake_lock.outputs.diff == 'true'
-        run: |
-          nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
+        run: nix run github:Mic92/nix-fast-build -- --no-nom --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
         continue-on-error: false
 
       # Créer une pull request si la construction réussit
@@ -47,6 +46,6 @@ jobs:
           commit-message: 'Update NixOS ISO'
           title: 'Update NixOS ISO'
           body: |
-            This PR updates the NixOS ISO after flake.lock was updated.
+            This PR update flake.lock and build.
           base: dev
-          branch: update-nixos-iso
+          branch: update/flake
