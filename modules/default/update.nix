@@ -9,7 +9,7 @@
 
   config = lib.mkIf config.glf.autoUpgrade {
 
-    environment.systemPackages = with pkgs; [ libnotify ];
+    environment.systemPackages = with pkgs; [ coreutils gawk ];
     
     environment.etc."glfos/update.sh" = {
       text = ''
@@ -18,9 +18,12 @@
         FLAKE_PATH="/etc/nixos"
         FLAKE_NAME="GLF-OS"
 
+        FLAKE_LOCK_PATH="/etc/nixos/flake.lock"
+        INITIAL_HASH=$(${pkgs.coreutils}/bin/sha256sum "$FLAKE_LOCK_PATH" | ${pkgs.gawk}/bin/awk '{print $1}')
+
         # Check network status
-        if ! ${pkgs.iputils}/bin/ping -c 1 google.com &> /dev/null; then
-          echo "[ERROR] No internet access" >&2
+        if ! ${pkgs.networkmanager}/bin/nm-online -q; then
+          echo "[ERROR] Network is not yet online" >&2
           exit 1
         fi
 
@@ -31,14 +34,19 @@
           exit 1
         fi
 
-        echo "[INFO] Starting system rebuild with $FLAKE_NAME" >&2
-        ${pkgs.nixos-rebuild}/bin/nixos-rebuild boot --flake $FLAKE_PATH#$FLAKE_NAME
-        if [ $? -ne 0 ]; then
-          echo "[ERROR] System rebuild failed for $FLAKE_NAME" >&2
-          exit 1
-        fi
+        UPDATED_HASH=$(${pkgs.coreutils}/bin/sha256sum "$FLAKE_LOCK_PATH" | ${pkgs.gawk}/bin/awk '{print $1}')
 
-        echo "[INFO] GLFOS update and rebuild completed successfully." >&2
+        if [ "$INITIAL_HASH" != "$UPDATED_HASH" ]; then
+          echo "[INFO] flake.lock has changed. Rebuilding the system..." >&2
+          ${pkgs.nixos-rebuild}/bin/nixos-rebuild boot --flake $FLAKE_PATH#$FLAKE_NAME
+          if [ $? -ne 0 ]; then
+            echo "[ERROR] System rebuild failed for $FLAKE_NAME" >&2
+            exit 1
+          fi
+          echo "[INFO] GLFOS update and rebuild completed successfully." >&2
+        else
+          echo "[INFO] No changes detected in flake.lock. Skipping rebuild." >&2
+        fi
       '';
       mode = "0755";
     };
@@ -47,7 +55,7 @@
       services."glfos-update" = {
         description = "Update GLFOS";
         wantedBy = [ "multi-user.target" ];
-        after = [ "network.target" ];
+        after = [ "network-online.target" ];
         requires = [ "network-online.target" ];
         serviceConfig = {
           Type = "oneshot";
