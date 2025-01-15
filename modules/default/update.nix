@@ -67,6 +67,7 @@
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnBootSec = "5min";
+	  OnUnitActiveSec = "12h";
           Persistent = true;
         };
       };
