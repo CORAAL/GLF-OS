@@ -12,8 +12,8 @@
 
     environment.shellAliases = {
       glf-update  = "sudo nix flake update --flake /etc/nixos";
-      glf-rebuild = "nh os switch /etc/nixos -H GLF-OS";
       glf-build = "nh os build /etc/nixos -H GLF-OS";
+      glf-switch = "nh os switch /etc/nixos -H GLF-OS";
       glf-boot = "nh os boot /etc/nixos -H GLF-OS";
     };
     
