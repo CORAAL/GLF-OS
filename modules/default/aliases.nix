@@ -22,7 +22,7 @@
         glf-build = "nh os build /etc/nixos -H GLF-OS";
         glf-switch = "nh os switch /etc/nixos -H GLF-OS";
         glf-boot = "nh os boot /etc/nixos -H GLF-OS";
-	systeminfo = ''
+	glf-systeminfo = ''
 	    echo -e "\n--- Infos ---"; \
 	    inxi -M; \
 	    echo -e "\n--- CPU ---"; \
