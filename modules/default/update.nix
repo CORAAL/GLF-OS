@@ -27,6 +27,14 @@
           exit 1
         fi
 
+        echo "[INFO] Updating Flatpaks..." >&2
+        ${pkgs.flatpak}/bin/flatpak update -y
+        if [ $? -ne 0 ]; then
+          echo "[ERROR] Flatpak update failed" >&2
+          exit 1
+        fi
+        echo "[INFO] Flatpak update completed successfully." >&2
+
         echo "[INFO] Starting flake update for $FLAKE_PATH" >&2
         ${pkgs.nix}/bin/nix flake update --flake $FLAKE_PATH
         if [ $? -ne 0 ]; then
