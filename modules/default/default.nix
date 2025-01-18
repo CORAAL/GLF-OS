@@ -1,6 +1,7 @@
 {
 
   imports = [
+    ./debug.nix
     ./aliases.nix
     ./boot.nix
     ./firefox.nix
