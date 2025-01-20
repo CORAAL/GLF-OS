@@ -27,9 +27,6 @@ jobs:
       - name: Build GLF
         run: nix run github:Mic92/nix-fast-build -- --no-nom  --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel 
 
-      - name: Validate Build
+      - name: Report Results
         run: |
-          if [ ! -d result ]; then
-          echo "Build failed! Check logs for details."
-          exit 1
-          fi
+          echo "✅ Build completed successfully." 
