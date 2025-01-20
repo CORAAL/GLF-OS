@@ -6,6 +6,7 @@ on:
       - main
       - dev
       - coraal_flakeInit # Remove that before fusion
+      - dontRevelate 
     paths:
       - '**/*.nix'  
   pull_request:
