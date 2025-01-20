@@ -31,6 +31,7 @@
       git
       btop
       htop
+      google-chrome # test
     
       # Fetch en attendant GLF-FETCH
       fastfetch
