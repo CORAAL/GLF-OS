@@ -21,10 +21,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Installer Nix
       - name: Install Nix
         uses: cachix/install-nix-action@v17
 
-      # Construire la configuration NixOS
       - name: Build GLF
         run: nix run github:Mic92/nix-fast-build -- --no-nom  --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel 
