@@ -5,12 +5,15 @@ on:
     branches:
       - main
       - dev
-      - coraal_flakeInit 
+      - coraal_flakeInit # Remove that before fusion
+    paths:
+      - '**/*.nix'  
   pull_request:
     branches:
       - main
       - dev
-      - workflow-nix
+    paths:
+      - '**/*.nix'
   workflow_dispatch:
 
 jobs:
@@ -25,8 +28,8 @@ jobs:
         uses: cachix/install-nix-action@v17
 
       - name: Build GLF
-        run: nix run github:Mic92/nix-fast-build -- --no-nom  --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel 
+        run: nix run github:Mic92/nix-fast-build -- --no-nom  --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
 
       - name: Report Results
         run: |
-          echo "✅ Build completed successfully." 
+          echo "✅ Build completed successfully."
