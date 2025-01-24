@@ -64,7 +64,7 @@ make build
 
 4. **Test de la configuration dans une machine virtuelle** :
 
-La configuration peut-être construite et lancé dans une machine virtuelle (depuis nixos uniquement)
+La configuration peut-être construite et lancée dans une machine virtuelle (depuis nixos uniquement)
 
 ```bash
 make build-vm

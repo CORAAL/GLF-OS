@@ -1,0 +1,68 @@
+name: "Proposer une nouvelle fonctionnalité"
+description: "Utilisez ce formulaire pour suggérer une nouvelle fonctionnalité."
+title: "[FEATURE] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: "## **Description de la fonctionnalité proposée**\nExpliquez clairement la fonctionnalité que vous proposez."
+  - type: textarea
+    id: description_fonctionnalite
+    attributes:
+      label: "Description de la fonctionnalité"
+      description: "Expliquez clairement la fonctionnalité que vous proposez."
+      placeholder: "Décrivez la fonctionnalité ici..."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## **Problème résolu**\nDécrivez le problème que cette fonctionnalité résoudra."
+  - type: textarea
+    id: probleme_resolu
+    attributes:
+      label: "Problème résolu"
+      description: "Décrivez le problème que cette fonctionnalité résoudra."
+      placeholder: "Décrivez le problème ici..."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## **Impact attendu**\nSélectionnez l'impact de cette fonctionnalité."
+  - type: dropdown
+    id: impact_fonctionnalite
+    attributes:
+      label: "Impact de la fonctionnalité"
+      description: "Sélectionnez l'impact de cette fonctionnalité."
+      options:
+        - "🚀 Amélioration majeure : Fonctionnalité essentielle pour le projet."
+        - "⚡ Amélioration mineure : Fonctionnalité utile mais non essentielle."
+        - "🧩 Complémentaire : Fonctionnalité qui enrichit l'expérience utilisateur."
+        - "🛠️ Correction : Résout un problème existant sans ajouter de nouvelles fonctionnalités."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## **Tests proposés**\nSi applicable, décrivez les tests ou scénarios qui pourraient être utilisés pour valider cette fonctionnalité."
+  - type: textarea
+    id: tests_proposes
+    attributes:
+      label: "Tests proposés"
+      description: "Si applicable, décrivez les tests ou scénarios qui pourraient être utilisés pour valider cette fonctionnalité."
+      placeholder: "Décrivez les tests ici..."
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: "## **Informations supplémentaires**\nAjoutez tout autre détail pertinent."
+  - type: textarea
+    id: informations_supplementaires
+    attributes:
+      label: "Informations supplémentaires"
+      description: "Ajoutez tout autre détail pertinent."
+      placeholder: "Ajoutez des informations supplémentaires ici..."
+    validations:
+      required: false

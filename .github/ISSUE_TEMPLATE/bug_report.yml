@@ -1,0 +1,125 @@
+name: "Signaler un bug"
+description: "Utilisez ce formulaire pour signaler un bug."
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "## **Description du problème**\nExplique clairement le problème rencontré."
+  - type: textarea
+    id: description_probleme
+    attributes:
+      label: "Description du problème"
+      description: "Explique clairement ce qui ne va pas."
+      placeholder: "Décrivez le problème ici..."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## **Étapes pour reproduire**\n1. Aller à '...'\n2. Cliquer sur '...'\n3. Voir l'erreur."
+  - type: textarea
+    id: etapes_reproduire
+    attributes:
+      label: "Étapes pour reproduire"
+      description: "Listez les étapes pour reproduire le problème."
+      placeholder: "1. Aller à '...'\n2. Cliquer sur '...'\n3. Voir l'erreur."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## **Comportement attendu**\nDécris ce que tu attendais à la place."
+  - type: textarea
+    id: comportement_attendu
+    attributes:
+      label: "Comportement attendu"
+      description: "Décrivez ce que vous attendiez à la place."
+      placeholder: "Décrivez le comportement attendu ici..."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## **Captures d'écran**\nSi applicable, ajoutez des images pour expliquer."
+  - type: textarea
+    id: captures_ecran
+    attributes:
+      label: "Captures d'écran"
+      description: "Fournissez des liens vers des captures d'écran si applicable."
+      placeholder: "Collez les liens des captures d'écran ici..."
+
+  - type: markdown
+    attributes:
+      value: "## **Informations supplémentaires**\nTout autre détail qui pourrait être utile."
+  - type: textarea
+    id: informations_supplementaires
+    attributes:
+      label: "Informations supplémentaires"
+      description: "Ajoutez tout autre détail pertinent."
+      placeholder: "Ajoutez des informations supplémentaires ici..."
+
+  - type: markdown
+    attributes:
+      value: "## **Modifications de configuration**"
+  - type: checkboxes
+    id: modifications_configuration
+    attributes:
+      label: "Modifications de configuration"
+      description: "Indiquez si vous avez modifié la configuration."
+      options:
+        - label: "🔧 J'ai effectué des modifications dans la configuration (si oui, précisez-les)"
+          required: false
+  - type: textarea
+    id: details_modifications
+    attributes:
+      label: "Détails des modifications"
+      description: "Si vous avez modifié la configuration, veuillez fournir les détails ici."
+      placeholder: "Décrivez les modifications apportées à la configuration..."
+
+
+  - type: markdown
+    attributes:
+      value: "## **Impact du problème**\nCochez l'une des cases."
+  - type: dropdown
+    id: impact_probleme
+    attributes:
+      label: "Impact du problème"
+      description: "Sélectionnez l'impact du problème."
+      options:
+        - "🪦 Bloquant : Je ne peux pas utiliser la distribution."
+        - "🚨 Majeur : Fonctionnalités critiques non disponibles."
+        - "⚠️ Mineur : Gênant mais contournable."
+        - "👁 Cosmétiques : Problème visuel ou de confort."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## **Tests déjà effectués**"
+  - type: checkboxes
+    id: tests_effectues
+    attributes:
+      label: "Tests déjà effectués"
+      description: "Cochez les tests que vous avez déjà effectués."
+      options:
+        - label: "🔄 J'ai redémarré le système"
+          required: false
+        - label: "🌐 J'ai vérifié que ma connexion internet fonctionnait"
+          required: false
+
+  - type: markdown
+    attributes:
+      value: "## **Informations Système**\n```bash\nnix-shell -p pciutils util-linux inxi --run \"echo -e '\\n--- Infos ---' ; inxi -M ; echo -e '\\n--- CPU ---' ; lscpu | grep -E 'Architecture|CPU op-mode|Vendor ID|Model name' | awk '{$1=$1; print}' ; echo -e '\\n--- GPU ---' ; lspci | grep -E 'VGA|3D' ; echo -e '\\n--- RAM ---'; df -h / ; echo -e '\\n--- Disque --- ' ; free -h\"\n```\nCollez les informations système ici :"
+  - type: textarea
+    id: informations_systeme
+    attributes:
+      label: "Informations Système"
+      description: "Collez les informations système obtenues en exécutant la commande ci-dessus."
+      placeholder: "Collez les informations système ici..."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "> **Note** : Pour les contributeurs, mentionnez l'issue associé à vos Pull Request."

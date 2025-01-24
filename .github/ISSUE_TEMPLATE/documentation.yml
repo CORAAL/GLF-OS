@@ -1,0 +1,56 @@
+name: "Proposer une modification de la documentation"
+description: "Utilisez ce formulaire pour suggérer des améliorations ou des corrections à la documentation."
+title: "[DOC] "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: "## **Type de modification**\nSélectionnez le type de modification que vous proposez."
+  - type: dropdown
+    id: type_modification
+    attributes:
+      label: "Type de modification"
+      description: "Sélectionnez le type de modification que vous proposez."
+      options:
+        - "✍️ Correction de faute(s)"
+        - "📄 Ajouter du contenu"
+        - "🛠️ Amélioration du contenu"
+        - "🔍 Mise à jour d'informations obsolètes"
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## **Description de la modification proposée**\nDécrivez en détail la modification que vous proposez."
+  - type: textarea
+    id: description_modification
+    attributes:
+      label: "Description de la modification"
+      description: "Décrivez en détail la modification que vous proposez."
+      placeholder: "Décrivez la modification ici..."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## **Justification de la modification**\nExpliquez pourquoi cette modification est nécessaire ou bénéfique."
+  - type: textarea
+    id: justification_modification
+    attributes:
+      label: "Justification de la modification"
+      description: "Expliquez pourquoi cette modification est nécessaire ou bénéfique."
+      placeholder: "Fournissez la justification ici..."
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## **Informations supplémentaires**\nAjoutez tout autre détail pertinent ou des ressources supplémentaires."
+  - type: textarea
+    id: informations_supplementaires
+    attributes:
+      label: "Informations supplémentaires"
+      description: "Ajoutez tout autre détail pertinent ou des ressources supplémentaires."
+      placeholder: "Ajoutez des informations supplémentaires ici..."
+    validations:
+      required: false

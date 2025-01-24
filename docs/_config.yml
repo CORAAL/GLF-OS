@@ -1,0 +1,59 @@
+title: Just the Docs Template
+description: A starter template for a Jeykll site using the Just the Docs theme!
+theme: just-the-docs
+
+url: https://just-the-docs.github.io
+
+# See : https://just-the-docs.github.io/just-the-docs/docs/configuration/
+
+aux_links:
+  Template Repository: https://github.com/just-the-docs/just-the-docs-template
+
+logo: "/assets/images/logo.png"
+favicon_ico: "/assets/images/favicon.ico"
+
+mermaid:
+  # Version of mermaid library
+  # Pick an available version from https://cdn.jsdelivr.net/npm/mermaid/
+  version: "9.1.3"
+
+# Aux links for the upper right navigation
+aux_links:
+  "GamingLinuxFR":
+    - "https://www.gaminglinux.fr"
+
+# Makes Aux links open in a new tab. Default is false
+aux_links_new_tab: true
+
+nav_enabled: true
+fold_nav: true
+heading_anchors: true
+
+last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
+last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
+
+enable_copy_code_button: true
+
+callouts_level: quiet
+callouts:
+  info:
+    title: "ℹ️ Information"
+    color: blue
+  warning:
+    title: ⚠️ Avertissement
+    color: red
+  note:
+    title: "📝 Note"
+    color: purple
+  todo:
+    title: "📋 Todo"
+    color: yellow
+  in-progress:
+    title: "🚧 En construction"
+    color: yellow
+  screen:
+    title: ""
+    color: blue
+
+# Enable mathjax
+math: mathjax
