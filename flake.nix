@@ -3,10 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
-    utils.url   = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, utils, ... } @ inputs:
+  outputs = { self, nixpkgs, ... }:
     let
       system = "x86_64-linux";
 
@@ -74,28 +73,8 @@
         };
       };
 
-      # Development shells for multiple systems
-      devShells = utils.lib.eachDefaultSystem (system:
-        let
-          pkgs = import nixpkgs { inherit system; };
-        in
-        {
-          default = pkgs.mkShell {
-            buildInputs = [
-              pkgs.ruby
-              pkgs.bundler
-            ];
-            shellHook = ''
-              cd docs || exit 1
-              echo "Running bundle install and starting Jekyll server..."
-              bundle install && bundle exec jekyll serve
-            '';
-          };
-        }
-      );
-
     in {
       iso = nixosConfigurations."glf-installer".config.system.build.isoImage;
-      inherit nixosConfigurations nixosModules devShells;
+      inherit nixosConfigurations nixosModules;
     };
 }
