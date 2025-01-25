@@ -1,0 +1,31 @@
+name: Build GLF-OS Configurations
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+    paths:
+      - '**/*.nix'  
+  pull_request:
+    branches:
+      - '**' 
+    paths:
+      - '**/*.nix'
+  workflow_dispatch:
+
+jobs:
+  buildGLF-Configurations:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v17
+
+      - name: Build GLF
+        run: nix run github:Mic92/nix-fast-build -- --no-nom  --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.toplevel
+
+      - name: Report Results
+        run: |
+          echo "✅ Build completed successfully."

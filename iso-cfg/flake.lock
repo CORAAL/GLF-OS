@@ -1,12 +1,32 @@
 {
   "nodes": {
+    "glf": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "utils": "utils"
+      },
+      "locked": {
+        "lastModified": 1737724085,
+        "narHash": "sha256-T4w9cffpISb31WttBWQAIXHJ3Jm8AzJ4C58yWyQXO5w=",
+        "owner": "CORAAL",
+        "repo": "Nixos-by-GLF",
+        "rev": "edbc927b11a57cab1d7320d4a3ef5484432e3935",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CORAAL",
+        "ref": "coraal_flakeInit",
+        "repo": "Nixos-by-GLF",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1737569578,
-        "narHash": "sha256-6qY0pk2QmUtBT9Mywdvif0i/CLVgpCjMUn6g9vB+f3M=",
+        "lastModified": 1736549401,
+        "narHash": "sha256-ibkQrMHxF/7TqAYcQE+tOnIsSEzXmMegzyBWza6uHKM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "47addd76727f42d351590c905d9d1905ca895b82",
+        "rev": "1dab772dd4a68a7bba5d9460685547ff8e17d899",
         "type": "github"
       },
       "original": {
@@ -16,10 +36,26 @@
         "type": "github"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1737569578,
+        "narHash": "sha256-6qY0pk2QmUtBT9Mywdvif0i/CLVgpCjMUn6g9vB+f3M=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "47addd76727f42d351590c905d9d1905ca895b82",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-24.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs",
-        "utils": "utils"
+        "glf": "glf",
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "systems": {

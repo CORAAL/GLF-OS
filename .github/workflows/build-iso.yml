@@ -1,0 +1,33 @@
+name: Build ISO Image
+
+on:
+  push:
+    branches: ['**'] 
+    paths: ['**/*.nix']
+  pull_request:
+    branches: ['**']
+  workflow_dispatch:
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v23
+        with:
+          extra_nix_config: |
+            auto-optimise-store = true
+            keep-outputs = false
+            keep-derivations = false
+
+      - name: Build ISO with Space Optimizations
+        run: nix run github:Mic92/nix-fast-build -- --no-nom  --skip-cached --systems 'x86_64-linux' -f .#nixosConfigurations.glf-installer.config.system.build.isoImage
+      - name: Upload ISO Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: glfos-iso
+          path: result/iso/*.iso.zst
+          retention-days: 1
