@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-iso:
-    runs-on: ["janus", "ubuntu-latest"]
+    runs-on: ["self-hosted", "ubuntu-latest"]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
