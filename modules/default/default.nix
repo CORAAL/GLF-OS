@@ -1,5 +1,7 @@
-{
+{ inputs, ... }:
 
+{
+  
   imports = [
     ./debug.nix
     ./aliases.nix

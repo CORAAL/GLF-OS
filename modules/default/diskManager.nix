@@ -16,7 +16,7 @@
   config = lib.mkIf config.glf.diskManager.enable (
     {
       environment.systemPackages = with pkgs;[
-        inputs.diskManager.packages.${system}.default
+        inputs.diskManager.packages.x86_64-linux.default
       ];
     }
   );

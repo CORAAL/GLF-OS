@@ -14,14 +14,14 @@
       utils,
       diskManager,
       ...
-    }:
+    }@inputs:
     let
       system = "x86_64-linux";
       nixpkgsConfig = {
         allowUnfree = true;
       };
       nixosModules = {
-        default = import ./modules/default;
+        default = import ./modules/default; 
       };
 
       baseModules = [
