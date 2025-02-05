@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  inputs,
   ...
 }:
 
@@ -15,7 +16,7 @@
   config = lib.mkIf config.glf.diskManager.enable (
     {
       environment.systemPackages = with pkgs;[
-        diskManager.packages.${system}.default
+        inputs.diskManager.packages.${system}.default
       ];
     }
   );
