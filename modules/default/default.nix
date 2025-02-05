@@ -17,6 +17,7 @@
     ./update.nix
     ./version.nix
     ./standBy.nix
+    ./diskManager.nix
   ];
 
 }
