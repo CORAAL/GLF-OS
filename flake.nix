@@ -21,7 +21,7 @@
         allowUnfree = true;
       };
       nixosModules = {
-        default = import ./modules/default; 
+        default = import ./modules/default { nixpkgs.config = nixpkgsConfig;}; 
       };
 
       baseModules = [
