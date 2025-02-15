@@ -45,11 +45,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1739620641,
-        "narHash": "sha256-iqDGbq3O00NCrNncPFP3VZ+9ghMFmImdc4C+rFEv998=",
+        "lastModified": 1739621946,
+        "narHash": "sha256-dfMgFky2Mv2zM7JqkYBeeFp9QXXIx4E9ZyfvvPICVl0=",
         "owner": "CORAAL",
         "repo": "GLF-OS",
-        "rev": "b5e3999dc5060f1ec80743881cd36ae6c22ff3c8",
+        "rev": "59fbf42061312c60ee5d2d3e5eefd6ee606fe6df",
         "type": "github"
       },
       "original": {
@@ -77,11 +77,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1738702386,
-        "narHash": "sha256-nJj8f78AYAxl/zqLiFGXn5Im1qjFKU8yBPKoWEeZN5M=",
+        "lastModified": 1739484910,
+        "narHash": "sha256-wjWLzdM7PIq4ZAe7k3vyjtgVJn6b0UeodtRFlM/6W5U=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "030ba1976b7c0e1a67d9716b17308ccdab5b381e",
+        "rev": "0b73e36b1962620a8ac551a37229dd8662dac5c8",
         "type": "github"
       },
       "original": {
