@@ -14,7 +14,7 @@
       utils,
       diskManager,
       ...
-    }@inputs:
+    }:
     let
       system = "x86_64-linux";
       nixpkgsConfig = {
@@ -37,7 +37,7 @@
         # Configuration pour l'ISO d'installation avec Calamares
         "glf-installer" = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit outputs; };
           modules = baseModules ++ [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix"
             "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"

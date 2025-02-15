@@ -1,4 +1,4 @@
-name: Build GLF-OS Configurations
+name: Flake check
 
 on:
   push:
@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  buildGLF-Configurations:
+  flakeCheck:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v3
@@ -31,7 +31,7 @@ jobs:
   report:
     name: Final Status
     runs-on: ubuntu-latest
-    needs: [buildGLF-Configurations]
+    needs: [flakeCheck]
     steps:
       - name: Combine Results
         run: |
