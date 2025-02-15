@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     utils.url = "github:numtide/flake-utils";
+    diskManager.url = "git+https://codeberg.org/CORAAL/nix-disk-manager.git?ref=flake";
   };
 
   outputs =
@@ -11,21 +12,23 @@
       self,
       nixpkgs,
       utils,
+      diskManager,
       ...
-    }:
+    }@inputs:
     let
       system = "x86_64-linux";
       nixpkgsConfig = {
         allowUnfree = true;
       };
       nixosModules = {
-        default = import ./modules/default;
+        default = import ./modules/default { nixpkgs.config = nixpkgsConfig;}; 
       };
 
       baseModules = [
         nixosModules.default
         { nixpkgs.config = nixpkgsConfig; }
       ];
+      specialArgs = { inherit inputs; };
 
     in
     {
@@ -35,6 +38,7 @@
         # Configuration pour l'ISO d'installation avec Calamares
         "glf-installer" = nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = specialArgs;
           modules = baseModules ++ [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix"
             "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"

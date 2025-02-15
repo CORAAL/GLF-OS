@@ -1,0 +1,40 @@
+name: Flake check
+
+on:
+  push:
+    branches: [main, dev]
+    paths:
+      - '**/*.nix'
+      - '**/*.lock'
+
+  pull_request:
+    branches: ['**'] 
+    paths:
+      - '**/*.nix'
+      - '**/*.lock'
+
+  workflow_dispatch:
+
+jobs:
+  flakeCheck:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v17
+
+      - name: Build GLF
+        run: nix flake check --no-build
+        continue-on-error: false
+
+  report:
+    name: Final Status
+    runs-on: ubuntu-latest
+    needs: [flakeCheck]
+    steps:
+      - name: Combine Results
+        run: |
+          echo "Build status:"
+          echo "✅ Testing completed"
+        if: always()

@@ -1,5 +1,7 @@
-{
+{ ... }:
 
+{
+  
   imports = [
     ./debug.nix
     ./aliases.nix
@@ -17,6 +19,7 @@
     ./update.nix
     ./version.nix
     ./standBy.nix
+    ./diskManager.nix
   ];
 
 }
