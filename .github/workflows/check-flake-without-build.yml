@@ -25,7 +25,7 @@ jobs:
         uses: cachix/install-nix-action@v17
 
       - name: Build GLF
-        run: nix build flake check --no-build
+        run: nix flake check --no-build
         continue-on-error: false
 
   report:
