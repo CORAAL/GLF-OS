@@ -28,7 +28,7 @@
         nixosModules.default
         { nixpkgs.config = nixpkgsConfig; }
       ];
-      specialArgs = { inherit inputs outputs; };
+      specialArgs = { inherit inputs; };
 
     in
     {
