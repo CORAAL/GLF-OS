@@ -37,6 +37,7 @@
         # Configuration pour l'ISO d'installation avec Calamares
         "glf-installer" = nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = { inherit inputs; };
           modules = baseModules ++ [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares-gnome.nix"
             "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
